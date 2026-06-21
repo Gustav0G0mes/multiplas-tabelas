@@ -1,0 +1,151 @@
+CREATE DATABASE IF NOT EXISTS restaurante;
+USE restaurante;
+
+CREATE TABLE IF NOT EXISTS clientes (
+id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(255) NOT NULL,
+cpf VARCHAR(14) UNIQUE NOT NULL,
+data_nascimento DATE,
+endereco VARCHAR(255),
+telefone VARCHAR(15),
+email VARCHAR(100),
+data_cadastro DATE
+);
+
+CREATE TABLE IF NOT EXISTS produtos (
+id_produto INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(255) NOT NULL,
+descricao TEXT,
+preco DECIMAL(10,2) NOT NULL,
+categoria VARCHAR(100)
+);
+
+
+CREATE TABLE IF NOT EXISTS funcionarios (
+id_funcionario INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(255) NOT NULL,
+cargo VARCHAR(100)
+);
+
+
+CREATE TABLE IF NOT EXISTS pedidos (
+id_pedido INT PRIMARY KEY AUTO_INCREMENT,
+id_cliente INT,
+id_funcionario INT,
+id_produto INT,
+quantidade INT NOT NULL,
+preco DECIMAL(10,2) NOT NULL,
+data_pedido DATE NOT NULL,
+status VARCHAR(50) NOT NULL,
+
+    CONSTRAINT fk_cliente
+	FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+
+    CONSTRAINT fk_funcionario
+	FOREIGN KEY (id_funcionario) REFERENCES funcionarios(id_funcionario)
+	ON DELETE SET NULL
+	ON UPDATE CASCADE,
+
+    CONSTRAINT fk_produto
+	FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
+	ON DELETE SET NULL
+	ON UPDATE CASCADE
+);
+
+INSERT INTO pedidos (id_pedido, id_cliente, id_funcionario, id_produto, quantidade, preco, data_pedido, status) VALUES
+					(1, 4, 1, 2, 1, 50.00, '2024-07-01', 'Concluido'),
+					(3, 4, 2, 1, 2, 30.00, '2024-07-01', 'Concluido'),
+					(6, 7, 3, 1, 1, 30.00, '2024-07-01', 'Concluido'),
+					(8, 7, 4, 3, 1, 75.00, '2024-07-01', 'Concluido'),
+					(10, 8, 5, 2, 2, 50.00, '2024-07-02', 'Pendente'),
+					(15, 8, 6, 4, 1, 100.00, '2024-07-02', 'Concluido'),
+					(22, 4, 7, 3, 1, 75.00, '2024-07-02', 'Concluido'),
+					(18, 4, 8, 2, 3, 50.00, '2024-07-02', 'Concluido'),
+					(4, 7, 9, 5, 1, 125.00, '2024-07-02', 'Concluido'),
+					(6, 7, 10, 1, 2, 30.00, '2024-07-03', 'Concluido'),
+					(9, 8, 11, 3, 1, 75.00, '2024-07-03', 'Concluido'),
+					(11, 8, 12, 1, 2, 30.00, '2024-07-03', 'Concluido'),
+					(24, 4, 13, 2, 1, 50.00, '2024-07-03', 'Concluido'),
+					(27, 4, 14, 1, 3, 30.00, '2024-07-03', 'Concluido'),
+					(17, 7, 15, 2, 2, 50.00, '2024-07-03', 'Concluido'),
+					(7, 7, 16, 3, 1, 75.00, '2024-07-04', 'Concluido'),
+					(13, 8, 17, 2, 2, 50.00, '2024-07-04', 'Concluido'),
+					(25, 8, 18, 4, 1, 100.00, '2024-07-04', 'Concluido'),
+					(22, 4, 19, 1, 1, 30.00, '2024-07-04', 'Concluido'),
+					(2, 4, 20, 2, 1, 50.00, '2024-07-04', 'Concluido'),
+					(8, 7, 2, 1, 1, 30.00, '2024-07-04', 'Concluido'),
+					(11, 7, 3, 2, 2, 50.00, '2024-07-05', 'Concluido'),
+					(18, 8, 4, 3, 1, 75.00, '2024-07-05', 'Concluido'),
+					(22, 8, 5, 1, 2, 30.00, '2024-07-05', 'Concluido'),
+					(19, 4, 6, 4, 1, 100.00, '2024-07-05', 'Concluido'),
+					(28, 4, 7, 3, 2, 75.00, '2024-07-05', 'Concluido'),
+					(1, 7, 8, 2, 1, 50.00, '2024-07-05', 'Concluido'),
+					(7, 7, 9, 5, 1, 125.00, '2024-07-05', 'Concluido'),
+					(19, 8, 10, 1, 2, 30.00, '2024-07-05', 'Concluido'),
+					(15, 8, 11, 3, 1, 75.00, '2024-07-05', 'Concluido'),
+					(24, 4, 12, 1, 1, 30.00, '2024-07-05', 'Concluido'),
+					(12, 4, 13, 2, 2, 50.00, '2024-07-05', 'Concluido'),
+					(4, 7, 14, 1, 1, 30.00, '2024-07-05', 'Concluido'),
+					(9, 7, 15, 2, 2, 50.00, '2024-07-06', 'Concluido'),
+					(18, 8, 16, 3, 1, 75.00, '2024-07-06', 'Concluido'),
+					(5, 8, 17, 2, 1, 50.00, '2024-07-06', 'Pendente'),
+					(22, 4, 18, 4, 1, 100.00, '2024-07-06', 'Concluido'),
+					(14, 4, 19, 1, 2, 30.00, '2024-07-06', 'Pendente'),
+					(19, 7, 20, 2, 1, 50.00, '2024-07-06', 'Concluido'),
+					(8, 7, 1, 2, 2, 50.00, '2024-07-06', 'Pendente'),
+					(7, 8, 2, 1, 1, 30.00, '2024-07-06', 'Concluido'),
+					(4, 8, 3, 2, 2, 50.00, '2024-07-06', 'Pendente'),
+					(21, 4, 4, 3, 1, 75.00, '2024-07-06', 'Concluido'),
+					(4, 4, 5, 1, 1, 50.00, '2024-07-06', 'Pendente'),
+					(13, 7, 6, 4, 2, 100.00, '2024-07-06', 'Concluido'),
+					(25, 7, 7, 3, 1, 75.00, '2024-07-06', 'Pendente'),
+					(7, 8, 8, 2, 2, 50.00, '2024-07-06', 'Concluido'),
+					(12, 4, 10, 1, 1, 30.00, '2024-07-06', 'Concluido'),
+					(10, 4, 11, 3, 2, 75.00, '2024-07-06', 'Pendente');
+                    
+                    SELECT id_pedido,
+LAG(id_pedido) OVER (ORDER BY id_pedido) AS anterior,id_pedido - LAG(id_pedido) OVER (ORDER BY id_pedido) AS diferenca
+FROM pedidos
+ORDER BY id_pedido;
+
+
+use restaurante;
+select * from pedidos where id_funcionario = 4 and status = 'Pendente';
+
+
+ USE restaurante;
+select * from pedidos where not status = 'Concluido';
+
+USE restaurante;
+select * from pedidos where id_produto in (1,3,5,7,8);
+
+USE restaurante;
+SELECT * FROM pedidos WHERE quantidade BETWEEN 20 AND 30;
+
+select * from pedidos where null;
+
+
+SELECT id_pedido,  IFNULL(status, 'Cancelado') AS status FROM pedidos;
+
+
+use restaurante;
+select count(id_pedido) from pedidos;
+
+
+SELECT pe.id,pe.quantidade,pe.data,c.nome,c.email FROM pedidos pe JOIN clientes c ON pe.cliente_id = c.id;
+  
+  -- Selecionar: pedidos:  id, quantidade e data clientes: nome e email funcionarios: nome
+  
+SELECT pe.id_pedido, pe.quantidade, pe.data_pedido, c.nome, c.email FROM pedidos pe JOIN clientes c ON pe.id_cliente = c.id_cliente;
+
+-- Selecionar clientes sem pedidos
+SELECT * FROM pedidos WHERE data_pedido IS NULL;
+
+
+-- Selecionar o nome do cliente e o total de pedidos cada cliente
+SELECT c.nome, COUNT(p.id_pedido) AS total_pedidos FROM clientes c JOIN pedidos p ON c.id_cliente = p.id_cliente GROUP BY c.nome;
+
+-- Selecionar o preÃ§o total (quantidade*preco) de cada pedido
+SELECT id_pedido, quantidade * preco AS preco_total FROM pedidos;
