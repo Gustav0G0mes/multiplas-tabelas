@@ -1,0 +1,92 @@
+CREATE DATABASE IF NOT EXISTS produtos;
+USE produtos;
+DROP TABLE produtos;
+
+CREATE TABLE produtos (
+id_produto INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(255) NOT NULL,
+descricao TEXT,
+preco DECIMAL(10,2) NOT NULL,
+categoria VARCHAR(100)
+);
+
+INSERT INTO produtos(nome, descricao, preco, categoria) VALUES
+					('Feijoada', 'Feijoada completa com arroz, farofa, couve e laranja.', 29.90, 'Prato Principal'),
+					('Picanha na Chapa', 'Picanha fatiada servida com alho, arroz, farofa e vinagrete.', 42.00, 'Prato Principal'),
+					('Moqueca Baiana', 'Moqueca de peixe e camarÃƒÂ£o, acompanhada de arroz branco e pirÃƒÂ£o.', 37.50, 'Prato Principal'),
+					('BobÃƒÂ³ de CamarÃƒÂ£o', 'CamarÃƒÂ£o cozido em creme de mandioca e azeite de dendÃƒÂª, servido com arroz.', 45.00, 'Prato Principal'),
+					('Bacalhau Ãƒ  BrÃƒÂ¡s', 'Bacalhau desfiado, preparado com batata palha, ovos e cebola.', 38.00, 'Prato Principal'),
+					('Coxinha de Frango', 'Massa de batata com recheio cremoso de frango, servida frita.', 6.50, 'Aperitivo'),
+					('Pastel de Carne', 'Pastel frito com recheio de carne moÃƒÂ­da temperada.', 5.00, 'Aperitivo'),
+					('Pastel de Queijo', 'Pastel frito com recheio de queijo derretido.', 5.00, 'Aperitivo'),
+					('Empada de Palmito', 'Empada de massa podre recheada com creme de palmito.', 6.00, 'Aperitivo'),
+					('Risoto de CamarÃƒÂ£o', 'Risoto de camarÃƒÂ£o com toque de limÃƒÂ£o siciliano e alho-porÃƒÂ³.', 36.00, 'Prato Principal'),
+					('Escondidinho de Carne Seca', 'PurÃƒÂª de mandioca com recheio de carne seca e queijo coalho.', 32.00, 'Prato Principal'),
+					('Salada Caprese', 'Tomate, muÃƒÂ§arela de bÃƒÂºfala e manjericÃƒÂ£o, com azeite e vinagre balsÃƒÂ¢mico.', 22.00, 'Entrada'),
+					('Polenta Mole com RagÃƒÂº de LinguiÃƒÂ§a', 'Polenta cremosa servida com ragÃƒÂº de linguiÃƒÂ§a e molho de tomate.', 28.00, 'Prato Principal'),
+					('Frango Ãƒ  Parmegiana', 'Peito de frango empanado coberto com queijo e molho de tomate, servido com arroz e fritas.', 35.00, 'Prato Principal'),
+					('SalmÃƒÂ£o Grelhado', 'SalmÃƒÂ£o grelhado servido com legumes no vapor e molho de alcaparras.', 42.00, 'Prato Principal'),
+					('Caipirinha de LimÃƒÂ£o', 'Tradicional caipirinha brasileira feita com cachaÃƒÂ§a, limÃƒÂ£o e aÃƒÂ§ÃƒÂºcar.', 15.00, 'Bebida'),
+					('Suco de MaracujÃƒÂ¡', 'Suco natural de maracujÃƒÂ¡.', 8.00, 'Bebida'),
+					('Chopp Gelado', 'Chopp claro, servido bem gelado.', 7.50, 'Bebida'),
+					('Mousse de MaracujÃƒÂ¡', 'Sobremesa leve e refrescante Ãƒ  base de maracujÃƒÂ¡.', 12.00, 'Sobremesa'),
+					('Pudim de Leite', 'Pudim de leite condensado com calda de caramelo.', 10.00, 'Sobremesa');
+                    
+                    SELECT id_produto,
+LAG(id_produto) OVER (ORDER BY id_produto) AS anterior,id_produto - LAG(id_produto) OVER (ORDER BY id_produto) AS diferenca
+FROM produtos
+ORDER BY id_produto;
+
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE pedidos
+SET status = 'Concluido'
+WHERE data_pedido < '2024-07-06';
+
+SELECT data_pedido, COUNT(*) AS total_atualizados
+FROM pedidos
+WHERE data_pedido < '2024-07-06'
+GROUP BY data_pedido
+ORDER BY data_pedido;
+
+SELECT * 
+FROM pedidos
+WHERE data_pedido < '2024-07-06'
+ORDER BY data_pedido, id_pedido;
+
+SET SQL_SAFE_UPDATES = 1;
+use produtos;
+select nome,preco from produtos where preco >30;
+
+use produtos;
+SELECT nome,categoria FROM produtos ORDER BY categoria ASC;
+
+use produtos;
+select * from produtos order by preco asc LIMIT 5;
+
+use produtos;
+select nome, preco, categoria from produtos where categoria = 'Prato Principal'order by id_produto limit 2 offset 5;
+
+use produtos;
+SELECT nome, preco FROM produtos WHERE preco = 20 OR preco = 30;
+
+use restaurante;
+select avg(preco) from produtos;
+
+
+
+select min(preco) from produtos;
+
+
+select max(preco) from produtos;
+
+
+select nome,preco from produtos order by preco desc limit 5;
+
+select avg (preco) from produtos group by categoria;
+
+
+-- Selecionar: pedidos:  id, quantidade e data clientes: nome e email
+
+use restaurante;
+SELECT pe.id_pedido, pe.quantidade, pe.data_pedido, c.nome, c.email FROM pedidos pe JOIN clientes c ON pe.cliente_id = c.id;
