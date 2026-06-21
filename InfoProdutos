@@ -1,0 +1,75 @@
+USE restaurante;
+CREATE DATABASE IF NOT EXISTS info_produtos;
+USE info_produtos;
+
+CREATE TABLE info_produtos (
+id_info INT PRIMARY KEY AUTO_INCREMENT,
+id_produto INT,
+ingredientes TEXT,
+fornecedor VARCHAR(255),
+    
+CONSTRAINT fk_produto
+FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
+ON DELETE CASCADE
+ON UPDATE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS info_produtos (
+    id_info INT PRIMARY KEY AUTO_INCREMENT,
+    id_produto INT,
+    ingredientes TEXT,
+    fornecedor VARCHAR(255),
+
+    CONSTRAINT fk_info_produto
+        FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+--
+INSERT INTO info_produtos 	(id_produto, ingredientes, fornecedor) VALUES
+								(1, 'FeijÃƒÂ£o preto, carne seca, costelinha, linguiÃƒÂ§a, arroz, farinha, couve, laranja', 'Distribuidora Central'),
+								(2, 'Picanha, alho, arroz, farofa, vinagrete', 'Carnes Boi Nobre'),
+								(3, 'Peixe, camarÃƒÂ£o, leite de coco, azeite de dendÃƒÂª, arroz, farinha', 'Mar & Terra Distribuidora'),
+								(4, 'CamarÃƒÂ£o, mandioca, leite de coco, azeite, arroz', 'Mar & Terra Distribuidora'),
+								(5, 'Bacalhau, batata, ovo, cebola, azeite', 'Importadora Lisboa'),
+								(6, 'Frango, batata, massa de trigo', 'AvÃƒÂ­cola SÃƒÂ£o JosÃƒÂ©'),
+								(7, 'Carne moÃƒÂ­da, massa de trigo', 'Carnes Boi Nobre'),
+								(8, 'Queijo, massa de trigo', 'LaticÃƒÂ­nios Vale do Sereno'),
+								(9, 'Palmito, massa de trigo, creme de leite', 'Conservas Sabor da Terra'),
+								(10, 'CamarÃƒÂ£o, arroz arbÃƒÂ³reo, limÃƒÂ£o siciliano, alho-porÃƒÂ³', 'Mar & Terra Distribuidora'),
+								(11, 'Carne seca, mandioca, queijo coalho', 'Carnes Boi Nobre e LaticÃƒÂ­nios Vale do Sereno'),
+								(12, 'Tomate, muÃƒÂ§arela de bÃƒÂºfala, manjericÃƒÂ£o', 'Queijaria Bela Vista e Horta Santa Luzia'),
+								(13, 'LinguiÃƒÂ§a, polenta, molho de tomate', 'Carnes Boi Nobre e Moinho Dourado'),
+								(14, 'Frango, queijo, molho de tomate, arroz, batata', 'AvÃƒÂ­cola SÃƒÂ£o JosÃƒÂ© e LaticÃƒÂ­nios Vale do Sereno'),
+								(15, 'SalmÃƒÂ£o, legumes, alcaparras', 'Pescados do Norte e Hortifruti Natural da Terra'),
+								(16, 'CachaÃƒÂ§a, limÃƒÂ£o, aÃƒÂ§ÃƒÂºcar', 'Destilaria Nacional'),
+								(17, 'MaracujÃƒÂ¡', 'Hortifruti Natural da Terra'),
+								(18, 'Malte, lÃƒÂºpulo', 'Cervejaria do Vale'),
+								(19, 'MaracujÃƒÂ¡, creme de leite, aÃƒÂ§ÃƒÂºcar', 'Hortifruti Natural da Terra e LaticÃƒÂ­nios Vale do Sereno'),
+								(20, 'Leite condensado, ovos, aÃƒÂ§ÃƒÂºcar', 'LaticÃƒÂ­nios Vale do Sereno');
+                                
+                                
+use info_produtos;
+SELECT id_produto, ingredientes FROM info_produtos WHERE ingredientes LIKE '%carne%';
+
+
+
+USE restaurante;
+SELECT * FROM produtos WHERE descricao LIKE '%carne%' OR descricao LIKE '%frango%';
+
+UPDATE produtos SET id_produto = 6 WHERE null;
+
+
+select fornecedor, COUNT(id_produto) as quantidade_produtos from info_produtos group by fornecedor;
+
+
+select fornecedor, COUNT(id_produto) as quantidade from info_produtos group by fornecedor having COUNT(id_produto) > 1;
+
+
+
+-- Selecionar produtos: id, nome e descriÃ§Ã£o info_produtos:  ingredientes
+
+USE restaurante;
+SELECT p.id, p.nome, p.descricao, i.ingredientes FROM produtos p JOIN info_produtos i ON p.id = i.produto_id;
